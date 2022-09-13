@@ -40,7 +40,10 @@ def armature_state(context):
     data = ob.data
     data["svf_armature_state"] = {}
     armature_state_dict = {}
-    armature_drivers = [driver.data_path.split('bones["')[1].split('"]')[0] for driver in data.animation_data.drivers if ('bones["' in driver.data_path and "hide" in driver.data_path)]
+    if data.animation_data and data.animation_data.drivers:
+        armature_drivers = [driver.data_path.split('bones["')[1].split('"]')[0] for driver in data.animation_data.drivers if ('bones["' in driver.data_path and "hide" in driver.data_path)]
+    else:
+        armature_drivers = []
     layers = [armature_layer for armature_layer in data.layers]
     for bone in ob.pose.bones:
         bone_hide = bone.bone.hide
