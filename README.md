@@ -12,7 +12,7 @@ The second sector of the add-on is dedicated to synchronize the visibility of th
 - ### Placement
 After being installed the add-on will emerge in the **Graph Editor's N-Panel** in the **Armature** tab. This tab will be vivible only when your Active Object is of **Armature** type.
 
-![image](https://user-images.githubusercontent.com/59086089/189810854-7e7d3a5f-2791-475b-a997-0881670dfc45.png)
+![image](https://user-images.githubusercontent.com/59086089/189882391-41b54c07-8dbe-4453-978b-4df82d9e3326.png)
 
 ## Filter Curves
 - ### Use Case
@@ -24,7 +24,7 @@ After being installed the add-on will emerge in the **Graph Editor's N-Panel** i
 
 - ### Additional Functions
 The **Filter Visible** operator is executed taking two additional functions (placed on the top of the button) into account:
-![image](https://user-images.githubusercontent.com/59086089/189811717-9795e519-d270-4dbc-906a-07a450bb1d7e.png)
+![image](https://user-images.githubusercontent.com/59086089/189882542-37ae9872-38ad-45f5-9025-6cb34e4b69a0.png)
   1. **Expand**: all the filtered Groups will be Expanded while the others will stay Collapsed
   2. **Pin**: all the filtered Groups will be Pinned while the others Unpinned (pinning will let you clear/change the Pose Bones selection and still have the ability to have these filtered Groups placed in the list of the Channels in the Graph Editor)
  
@@ -35,7 +35,12 @@ The **Filter Visible** operator is executed taking two additional functions (pla
 3. **OR** after selecting some Keyframe Points instead of hiding the other FCurves you can just click on **Sync with Selected Curves**: it will make those and only those Pose Bones visible which FCurves (Keyframe Points) are selected.
 4. After dealing with Visibility Syncronization if you would like to go to the initial Armature state (by "initial" the Add-On understands the state of Pose Bones and Armature Layers visibility as well as "Hide" Drivers muting that was present at the moment before you click on "Sync Visibility"/"Sync with Selected Curves"). In that case you will need a **Restore Visibility** button.
 - ### Additional Functions
+![image](https://user-images.githubusercontent.com/59086089/189882622-e3af72c1-af46-4762-b40c-fba80707f8c3.png)
+
 1. **Drivers**: whether to override or not the existing Drivers that define the Pose Bone visibility. If turned on (it is by the Default) then all the Drivers that hide/unhide Pose Bones will be mute until the initial Armature state is restored.
 2. **Layers**: same here, whether to affect Armature Layers or not. If turned on then Pose Bones at the hidden Armature Layers will become visible by making such Layers visible.
+
+![image](https://user-images.githubusercontent.com/59086089/189882645-eafc8ae7-ef66-45e7-b725-d8ef2cdb798a.png)
+
 3. **Freeze Layers**: exclude some certain Armature Layers from any Add-On's affection. In other words, Pose Bones at these layers won't be touched no matter should they stay hidden or be revealed.
 4. **Freeze Bones Names**: exclude Bones that contain the given string in its name from any Add-On's affection. You can use **\*** symbol for a wildcards search (e.g. *\*chest* will exclude both *hest*and *CTRL-Chest* controllers from the Add-On's job, **spine* will exclude *Spine1*, *Spine2*, *CTRL-Spine* and so on). You can also turn on the Case Sensitive search.
