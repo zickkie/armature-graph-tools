@@ -6,7 +6,7 @@ bl_info = {
     "location": "Graph Editor > N-panel",
     "description": "Tools for a better Armature-oriented Animation Workflow inside the Graph Editor",
     "warning": "",
-    "doc_url": "https://github.com/zickkie/blender-rigging-stuff/tree/main/addons/stack_visible_fcurves#readme",
+    "doc_url": "https://github.com/zickkie/armature-graph-tools",
     "category": "Animation",
 }
 

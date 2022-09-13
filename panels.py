@@ -37,13 +37,13 @@ class SVF_PT_Armature_Tools_Panel(Panel):
         row = col.row(align=True)
         row.label(text = "Graph Editor", icon = "GRAPH")
         row = col.row(align=True)
-        row.label(text = "Stacked View:")
+        row.label(text = "Filtered View:")
         row.prop(scene, 'svf_use_expand', text = 'Expand', icon = "TRIA_RIGHT")
         row.prop(scene, 'svf_use_pin', text = 'Pin', icon = "PINNED")
         row = col.row(align=True)
-        stack = row.operator(SVF_OT_Stack_Visible_Fcurves.bl_idname, text = "Stack Curves", icon = "COLLAPSEMENU")
-        stack.use_pin = scene.svf_use_pin
-        stack.use_expand = scene.svf_use_expand
+        filter = row.operator(SVF_OT_Filter_Visible_Fcurves.bl_idname, text = "Filter Curves", icon = "COLLAPSEMENU")
+        filter.use_pin = scene.svf_use_pin
+        filter.use_expand = scene.svf_use_expand
         
         row = col.row(align=True)
         row.separator()
@@ -187,14 +187,14 @@ classes = (
 def register():
     
     bpy.types.Scene.svf_use_expand = BoolProperty(
-        name = "Expand Stacked Channels",
+        name = "Expand Filtered Channels",
         default = True,
-        description = "Expand Stacked Channels"
+        description = "Expand Filtered Channels"
         )
     bpy.types.Scene.svf_use_pin = BoolProperty(
-        name = "Pin Stacked Channels",
+        name = "Pin Filtered Channels",
         default = False,
-        description = "Pin Stacked Channels"
+        description = "Pin Filtered Channels"
         )
     bpy.types.Scene.svf_override_drivers = BoolProperty(
         name = "Override Drivers",

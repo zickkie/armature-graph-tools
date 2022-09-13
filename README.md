@@ -14,19 +14,19 @@ After being installed the add-on will emerge in the **Graph Editor's N-Panel** i
 
 ![image](https://user-images.githubusercontent.com/59086089/189810854-7e7d3a5f-2791-475b-a997-0881670dfc45.png)
 
-## Stack Curves
+## Filter Curves
 - ### Use Case
 1. Select the **Keyframe Points** of the Animaton Channels you want to leave **visible** and press **Alt+H** (or in the Menu: Channel -> Hide Unselected Curves).
-2. Click on **Stack Curves** button.
+2. Click on **Filter Curves** button.
 3. This operator will move all the **Groups** that countain **Visible** Fcurves to the **Top** of the list in the **Grapf Editor**.
 4. The **FCurves** that are Visible but **not groupped** will be groupped under the **"UNGROUPPED"** label.
 5. All the **Groups** that contain the **hidden** FCurves will be **collapsed**.
 
 - ### Additional Functions
-The **Stack Visible** operator is executed taking two additional functions (placed on the top of the button) into account:
+The **Filter Visible** operator is executed taking two additional functions (placed on the top of the button) into account:
 ![image](https://user-images.githubusercontent.com/59086089/189811717-9795e519-d270-4dbc-906a-07a450bb1d7e.png)
-  1. **Expand**: all the stacked Groups will be Expanded while the others will stay Collapsed
-  2. **Pin**: all the stacked Groups will be Pinned while the others Unpinned (pinning will let you clear/change the Pose Bones selection and still have the ability to have these stacked Groups placed in the list of the Channels in the Graph Editor)
+  1. **Expand**: all the filtered Groups will be Expanded while the others will stay Collapsed
+  2. **Pin**: all the filtered Groups will be Pinned while the others Unpinned (pinning will let you clear/change the Pose Bones selection and still have the ability to have these filtered Groups placed in the list of the Channels in the Graph Editor)
  
 ## Sync Pose Bones Visibility
 - ### Use Case

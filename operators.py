@@ -73,9 +73,9 @@ class SVF_UL_Freeze_Bones_Names_List(UIList):
 
     
 
-class SVF_OT_Stack_Visible_Fcurves(Operator):
-    """Move Visible FCurves to the Top"""
-    bl_idname = "graph.stack_visible_fcurves"
+class SVF_OT_Filter_Visible_Fcurves(Operator):
+    """Move the Groups of the Visible FCurves to the Top of the List"""
+    bl_idname = "graph.filter_visible_fcurves"
     bl_label = "Moves Visible FCurves to the Top"
     bl_options = {'REGISTER', 'UNDO'}
     
@@ -363,7 +363,7 @@ classes = (
         SVF_Freeze_Bones_Names,
         SVF_Freeze_Armature_Layers,
         SVF_UL_Freeze_Bones_Names_List,
-        SVF_OT_Stack_Visible_Fcurves,
+        SVF_OT_Filter_Visible_Fcurves,
         SVF_OT_Sync_Armature_Visibility,
         SVF_OT_Sync_Armature_Visibility_to_Selected,
         SVF_OT_Restore_Armature_Visibility,
