@@ -41,9 +41,12 @@ class SVF_PT_Armature_Tools_Panel(Panel):
         row.prop(scene, 'svf_use_expand', text = 'Expand', icon = "TRIA_RIGHT")
         row.prop(scene, 'svf_use_pin', text = 'Pin', icon = "PINNED")
         row = col.row(align=True)
-        filter = row.operator(SVF_OT_Filter_Visible_Fcurves.bl_idname, text = "Filter Curves", icon = "COLLAPSEMENU")
-        filter.use_pin = scene.svf_use_pin
-        filter.use_expand = scene.svf_use_expand
+        filter_sel = row.operator(SVF_OT_Filter_Selected_Fcurves.bl_idname, text = "Filter Selected", icon = "RESTRICT_SELECT_OFF")
+        filter_sel.use_pin = scene.svf_use_pin
+        filter_sel.use_expand = scene.svf_use_expand
+        filter_vis = row.operator(SVF_OT_Filter_Visible_Fcurves.bl_idname, text = "Filter Visible", icon = "HIDE_OFF")
+        filter_vis.use_pin = scene.svf_use_pin
+        filter_vis.use_expand = scene.svf_use_expand
         
         row = col.row(align=True)
         row.separator()

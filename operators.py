@@ -143,6 +143,60 @@ class SVF_OT_Filter_Visible_Fcurves(Operator):
         return {'FINISHED'}
 
 
+
+class SVF_OT_Filter_Selected_Fcurves(Operator):
+    """Move the Groups of the Selected FCurves to the Top of the List"""
+    bl_idname = "graph.filter_selected_fcurves"
+    bl_label = "Moves Selected FCurves to the Top"
+    bl_options = {'REGISTER', 'UNDO'}
+    
+    use_expand: bpy.props.BoolProperty(
+        name = "Expand",
+        default = False,
+        description = "Expand"
+        )
+    
+    use_pin: bpy.props.BoolProperty(
+        name = "Pin",
+        default = False,
+        description = "Pin"
+        )
+    
+    
+    def execute(self, context):
+        
+        ob = context.active_object
+        action = ob.animation_data.action
+        fcurves = action.fcurves
+
+        used_groups = []
+        
+        for curve in fcurves:
+            if not curve.group and action.groups.get("UNGROUPPED"):
+                curve.group = action.groups.get("UNGROUPPED")
+            elif not curve.group and not action.groups.get("UNGROUPPED"):
+                curve.group = action.groups.new("UNGROUPPED")
+            else:
+                pass
+            group = curve.group
+            if not group.name in used_groups:
+                if curve in context.selected_visible_fcurves:
+                    curve.group.select = True
+                    curve.group.show_expanded = self.use_expand
+                    curve.group.show_expanded_graph = self.use_expand
+                    curve.group.use_pin = self.use_pin
+                    used_groups.append(group.name)
+                else:
+                    curve.group.select = False
+                    curve.group.show_expanded = False
+                    curve.group.show_expanded_graph = False
+                    curve.group.use_pin = False
+        bpy.ops.anim.channels_move(direction='TOP')
+            
+        return {'FINISHED'}
+
+
+
 class SVF_OT_Sync_Armature_Visibility(Operator):
     """Synchronize the Visibility of the FCurves and the Pose Bones"""
     bl_idname = "graph.sync_armature_visibility"
@@ -172,12 +226,11 @@ class SVF_OT_Sync_Armature_Visibility(Operator):
             armature_state(context)
         
         vis_curves_bones = [curve.data_path.split('pose.bones["')[1].split('"]')[0] for curve in fcurves if ('pose.bones["' in curve.data_path and not curve.hide)]
-        print(vis_curves_bones)
         if vis_curves_bones:
             if context.area.spaces[0].dopesheet.show_only_selected:
                 for bone in ob.pose.bones:
                     if not (any(x in [i for i in range(32) if bone.bone.layers[i]] for x in [j for j in range(32) if getattr(data.svf_freezed_layers, "layer"+str(j))]) or freeze_bones_list_search(context, bone.name)):
-                        if bone in context.selected_pose_bones and bone.name in vis_curves_bones:
+                        if bone in context.selected_pose_bones: #and bone.name in vis_curves_bones:
                             set_bone_visibility(context, bone.name, self.override_drivers, self.override_layers, "show")
                         else:
                             set_bone_visibility(context, bone.name, self.override_drivers, self.override_layers, "hide")
@@ -364,6 +417,7 @@ classes = (
         SVF_Freeze_Armature_Layers,
         SVF_UL_Freeze_Bones_Names_List,
         SVF_OT_Filter_Visible_Fcurves,
+        SVF_OT_Filter_Selected_Fcurves,
         SVF_OT_Sync_Armature_Visibility,
         SVF_OT_Sync_Armature_Visibility_to_Selected,
         SVF_OT_Restore_Armature_Visibility,
