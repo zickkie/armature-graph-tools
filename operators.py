@@ -165,33 +165,35 @@ class SVF_OT_Filter_Selected_Fcurves(Operator):
     
     def execute(self, context):
         
-        ob = context.active_object
-        action = ob.animation_data.action
-        fcurves = action.fcurves
+        for ob in context.selected_objects:
+            #ob = context.active_object
+            action = ob.animation_data.action
+            fcurves = action.fcurves
 
-        used_groups = []
-        
-        for curve in fcurves:
-            if not curve.group and action.groups.get("UNGROUPPED"):
-                curve.group = action.groups.get("UNGROUPPED")
-            elif not curve.group and not action.groups.get("UNGROUPPED"):
-                curve.group = action.groups.new("UNGROUPPED")
-            else:
-                pass
-            group = curve.group
-            if not group.name in used_groups:
-                if curve in context.selected_visible_fcurves:
-                    curve.group.select = True
-                    curve.group.show_expanded = self.use_expand
-                    curve.group.show_expanded_graph = self.use_expand
-                    curve.group.use_pin = self.use_pin
-                    used_groups.append(group.name)
+            used_groups = []
+            
+            for curve in fcurves:
+                if not curve.group and action.groups.get("UNGROUPPED"):
+                    curve.group = action.groups.get("UNGROUPPED")
+                elif not curve.group and not action.groups.get("UNGROUPPED"):
+                    curve.group = action.groups.new("UNGROUPPED")
                 else:
-                    curve.group.select = False
-                    curve.group.show_expanded = False
-                    curve.group.show_expanded_graph = False
-                    curve.group.use_pin = False
-        bpy.ops.anim.channels_move(direction='TOP')
+                    pass
+                group = curve.group
+                if not group.name in used_groups:
+                    if any((curve.data_path == selected.data_path) for selected in context.selected_visible_fcurves):
+                        curve.group.select = True
+                        curve.group.show_expanded = self.use_expand
+                        curve.group.show_expanded_graph = self.use_expand
+                        curve.group.use_pin = self.use_pin
+                        used_groups.append(group.name)
+                    else:
+                        curve.group.select = False
+                        curve.group.show_expanded = False
+                        curve.group.show_expanded_graph = False
+                        curve.group.use_pin = False
+                        
+            bpy.ops.anim.channels_move(direction='TOP')
             
         return {'FINISHED'}
 
