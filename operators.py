@@ -94,50 +94,48 @@ class SVF_OT_Filter_Visible_Fcurves(Operator):
     
     def execute(self, context):
         
-        ob = context.active_object
-        action = ob.animation_data.action
-        fcurves = action.fcurves
-        
-        vis_curves = []
-        
-        for curve in fcurves:
-            if not curve.hide:
-                vis_curves.append(curve)
-            else:
-                if curve.group:
-                    curve.group.select = False
-                    curve.group.show_expanded = False
-                    curve.group.show_expanded_graph = False
-                    curve.group.use_pin = False
-        
-        if len(vis_curves) > 0:
-            vis_groups = []
-            for curve in vis_curves:
-                if curve.group:
-                    if not curve.group in vis_groups:
+        for ob in context.selected_objects:
+            action = ob.animation_data.action
+            fcurves = action.fcurves
+            vis_curves = []
+            
+            for curve in fcurves:
+                if curve.data_path in [visible.data_path for visible in context.visible_fcurves]:
+                    vis_curves.append(curve)
+                else:
+                    if curve.group:
+                        curve.group.select = False
+                        curve.group.show_expanded = False
+                        curve.group.show_expanded_graph = False
+                        curve.group.use_pin = False
+            
+            if len(vis_curves) > 0:
+                vis_groups = []
+                for curve in vis_curves:
+                    if curve.group:
+                        if not curve.group in vis_groups:
+                            vis_groups.append(curve.group)
+                    
+                    else:
+                        if action.groups.get("UNGROUPPED"):
+                            curve.group = action.groups.get("UNGROUPPED")
+                            curve.group.select = True
+                        else:
+                            group_new = action.groups.new("UNGROUPPED")
+                            curve.group = group_new
+                            curve.group.select = True
                         vis_groups.append(curve.group)
                 
-                else:
-                    if action.groups.get("UNGROUPPED"):
-                        curve.group = action.groups.get("UNGROUPPED")
-                        curve.group.select = True
+                for group in vis_groups:
+                    group.select = True
+                    group.show_expanded = self.use_expand
+                    group.show_expanded_graph = self.use_expand
+                    if self.use_pin:
+                        group.use_pin = True
                     else:
-                        group_new = action.groups.new("UNGROUPPED")
-                        curve.group = group_new
-                        curve.group.select = True
-                    vis_groups.append(curve.group)
-            
-            for group in vis_groups:
-                group.select = True
-                group.show_expanded = self.use_expand
-                group.show_expanded_graph = self.use_expand
-                if self.use_pin:
-                    group.use_pin = True
-                else:
-                    group.use_pin = False
-        
-            
-            bpy.ops.anim.channels_move(direction='TOP')
+                        group.use_pin = False
+                
+                bpy.ops.anim.channels_move(direction='TOP')
             
         
         return {'FINISHED'}
@@ -166,10 +164,8 @@ class SVF_OT_Filter_Selected_Fcurves(Operator):
     def execute(self, context):
         
         for ob in context.selected_objects:
-            #ob = context.active_object
             action = ob.animation_data.action
             fcurves = action.fcurves
-
             used_groups = []
             
             for curve in fcurves:
