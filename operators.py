@@ -99,8 +99,9 @@ class SVF_OT_Filter_Visible_Fcurves(Operator):
             fcurves = action.fcurves
             vis_curves = []
             
+            visible_curves = list(visible.data_path for visible in context.visible_fcurves)
             for curve in fcurves:
-                if curve.data_path in [visible.data_path for visible in context.visible_fcurves]:
+                if curve.data_path in visible_curves:
                     vis_curves.append(curve)
                 else:
                     if curve.group:
@@ -162,11 +163,14 @@ class SVF_OT_Filter_Selected_Fcurves(Operator):
     
     
     def execute(self, context):
-        
+
+        selected_curves = list(fcurve.data_path for fcurve in context.selected_visible_fcurves)
+
         for ob in context.selected_objects:
             action = ob.animation_data.action
             fcurves = action.fcurves
             used_groups = []
+
             
             for curve in fcurves:
                 if not curve.group and action.groups.get("UNGROUPPED"):
@@ -177,7 +181,7 @@ class SVF_OT_Filter_Selected_Fcurves(Operator):
                     pass
                 group = curve.group
                 if not group.name in used_groups:
-                    if any((curve.data_path == selected.data_path) for selected in context.selected_visible_fcurves):
+                    if curve.data_path in selected_curves:
                         curve.group.select = True
                         curve.group.show_expanded = self.use_expand
                         curve.group.show_expanded_graph = self.use_expand
