@@ -12,7 +12,6 @@ bl_info = {
 
 import bpy
 
-from . import functions
 from . import operators
 from . import panels
 
